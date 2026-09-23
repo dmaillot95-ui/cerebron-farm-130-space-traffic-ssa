@@ -1,0 +1,20 @@
+name: F130 Scientific Suite
+on:
+  workflow_dispatch:
+  push:
+    paths: ['runtime/covariance_suite_v3.py','.github/workflows/covariance-suite-v3.yml']
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python runtime/covariance_suite_v3.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: f130-scientific-suite
+          path: artifacts/f130_covariance_suite_v3.json
