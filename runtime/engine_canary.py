@@ -1,0 +1,4 @@
+import json,hashlib,pathlib,platform
+import math
+r0=(1200.,-500.,200.);v=(-2.0,.7,-.2);vv=sum(x*x for x in v);t=max(0.,-sum(r0[i]*v[i] for i in range(3))/vv);miss=math.sqrt(sum((r0[i]+v[i]*t)**2 for i in range(3)));out={"tca_s":t,"miss_distance_m":miss};ok=t>0 and miss>0
+out.update({"farm":130,"engine":"python-engineering-batch-canary","engine_version":platform.python_version(),"test":"CONJUNCTION_LINEAR","status":"REAL_ENGINE_CANARY_OK" if ok else "FAIL","epistemic_status":"ENGINEERING_CANARY_NOT_PHYSICAL_VALIDATION"});raw=json.dumps(out,sort_keys=True).encode();out["result_sha256"]=hashlib.sha256(raw).hexdigest();pathlib.Path("artifacts").mkdir(exist_ok=True);pathlib.Path("artifacts/f130_engine_canary.json").write_text(json.dumps(out,indent=2)+"\n");print(json.dumps(out));raise SystemExit(0 if ok else 1)
